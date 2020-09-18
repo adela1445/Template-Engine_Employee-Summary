@@ -32,56 +32,46 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
-inquirer
-  .prompt([
-    {
-      type: "input",
-      name: "name",
-      message: "What is your manager's name?",
-    },
-    {
-      type: "input",
-      name: "id",
-      message: "What's your manager's ID?",
-    },
-    {
-      type: "input",
-      name: "email",
-      message: "Please enter your manager's email.",
-    },
-    {
-      type: "input",
-      name: "officeNum",
-      message: "Please enter your manager's office number.",
-    },
-    {
-      type: "rawlist",
-      name: "role",
-      message: "Which type of team member would you like to add?",
-      choices: [
-        "Engineer",
-        "Intern",
-        "I don't want to add any more team members",
-      ],
-    },
-  ])
-  .then((res) => {
-    console.log(res);
-
-    employee.push(new Manager(res.name, res.id, res.email, res.officeNum));
-    if (res.role === Engineer) {
-      return engineerPrompt();
-    }
-    if (res.role === Intern) {
-      return internPrompt();
-    } else {
-      fs.writeFile("output/team.html", render(employee), function (err) {
-        if (err) throw err;
-      });
-    }
-  });
-
 const employee = [];
+
+function managerPrompt() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is your manager's name?",
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "What's your manager's ID?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "Please enter your manager's email.",
+      },
+      {
+        type: "input",
+        name: "officeNum",
+        message: "Please enter your manager's office number.",
+      },
+      {
+        type: "rawlist",
+        name: "role",
+        message: "Which type of team member would you like to add?",
+        choices: [
+          "Engineer",
+          "Intern",
+          "I don't want to add any more team members",
+        ],
+      },
+    ])
+    .then((answers) => {
+      console.log(answers);
+    });
+}
 
 function engineerPrompt() {
   inquirer.prompt([
@@ -152,3 +142,19 @@ function internPrompt() {
     },
   ]);
 }
+
+// .then((res) => {
+//   console.log(res);
+
+//   employee.push(new Manager(res.name, res.id, res.email, res.officeNum));
+//   if (res.role === Engineer) {
+//     return engineerPrompt();
+//   }
+//   if (res.role === Intern) {
+//     return internPrompt();
+//   } else {
+//     fs.writeFile("output/team.html", render(employee), function (err) {
+//       if (err) throw err;
+//     });
+//   }
+// });
