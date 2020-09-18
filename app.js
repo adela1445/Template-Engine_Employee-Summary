@@ -57,6 +57,96 @@ function managerPrompt() {
         name: "officeNum",
         message: "Please enter your manager's office number.",
       },
+    ])
+    .then((answers) => {
+      console.log(answers);
+      const mng = new Manager(
+        answers.name,
+        parseInt(answers.id),
+        answers.email,
+        parseInt(answers.officeNum)
+      );
+      employee.push(mng);
+      addMember();
+    });
+}
+
+function engineerPrompt() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is your engineer's name?",
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "What's your engineer's ID?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "Please enter your engineer's email.",
+      },
+      {
+        type: "input",
+        name: "github",
+        message: "Please enter your engineer's GitHub username.",
+      },
+    ])
+    .then((answers) => {
+      console.log(answers);
+      const eng = new Engineer(
+        answers.name,
+        parseInt(answers.id),
+        answers.email,
+        answers.github
+      );
+      employee.push(eng);
+      addMember();
+    });
+}
+
+function internPrompt() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is your intern's name?",
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "What's your intern's ID?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "Please enter your intern's email.",
+      },
+      {
+        type: "input",
+        name: "school",
+        message: "Please enter your intern's school number.",
+      },
+    ])
+    .then((answers) => {
+      console.log(answers);
+      const int = new Intern(
+        answers.name,
+        parseInt(answers.id),
+        answers.email,
+        answers.school
+      );
+      employee.push(int);
+      addMember();
+    });
+}
+function addMember() {
+  inquirer
+    .prompt([
       {
         type: "rawlist",
         name: "role",
@@ -69,92 +159,15 @@ function managerPrompt() {
       },
     ])
     .then((answers) => {
-      console.log(answers);
+      if (answers.choices === "Engineer") {
+        engineerPrompt();
+      }
+      if (answers.choices === "Intern") {
+        internPrompt();
+      } else {
+        render(employee);
+      }
     });
 }
 
-function engineerPrompt() {
-  inquirer.prompt([
-    {
-      type: "input",
-      name: "name",
-      message: "What is your engineer's name?",
-    },
-    {
-      type: "input",
-      name: "id",
-      message: "What's your engineer's ID?",
-    },
-    {
-      type: "input",
-      name: "email",
-      message: "Please enter your engineer's email.",
-    },
-    {
-      type: "input",
-      name: "github",
-      message: "Please enter your engineer's GitHub username.",
-    },
-    {
-      type: "rawlist",
-      name: "role",
-      message: "Which type of team membere would you like to add?",
-      choices: [
-        "Engineer",
-        "Intern",
-        "I don't want to add any more team members",
-      ],
-    },
-  ]);
-}
-
-function internPrompt() {
-  inquirer.prompt([
-    {
-      type: "input",
-      name: "name",
-      message: "What is your intern's name?",
-    },
-    {
-      type: "input",
-      name: "id",
-      message: "What's your intern's ID?",
-    },
-    {
-      type: "input",
-      name: "email",
-      message: "Please enter your intern's email.",
-    },
-    {
-      type: "input",
-      name: "school",
-      message: "Please enter your intern's school number.",
-    },
-    {
-      type: "rawlist",
-      name: "role",
-      message: "Which type of team membere would you like to add?",
-      choices: [
-        "Engineer",
-        "Intern",
-        "I don't want to add any more team members",
-      ],
-    },
-  ]);
-}
-
-// .then((res) => {
-//   console.log(res);
-
-//   employee.push(new Manager(res.name, res.id, res.email, res.officeNum));
-//   if (res.role === Engineer) {
-//     return engineerPrompt();
-//   }
-//   if (res.role === Intern) {
-//     return internPrompt();
-//   } else {
-//     fs.writeFile("output/team.html", render(employee), function (err) {
-//       if (err) throw err;
-//     });
-//   }
-// });
+managerPrompt();
