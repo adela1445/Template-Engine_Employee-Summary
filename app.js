@@ -8,7 +8,7 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./lib/htmlRenderer");
+const render = require("./lib/htmlRenderer.js");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -159,13 +159,18 @@ function addMember() {
       },
     ])
     .then((answers) => {
-      if (answers.choices === "Engineer") {
+      if (answers.role === "Engineer") {
         engineerPrompt();
       }
-      if (answers.choices === "Intern") {
+      if (answers.role === "Intern") {
         internPrompt();
       } else {
         render(employee);
+
+        fs.writeFile(outputPath, html, (err) => {
+          if (err) throw err;
+          else console.log("HTML file generated successfully");
+        });
       }
     });
 }
