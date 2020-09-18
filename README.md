@@ -83,4 +83,8 @@ You are required to submit the following:
 
 - The URL of the GitHub repository
 
+https://github.com/adela1445/NoteTaker
+
 - A video demonstrating the entirety of the app's functionality
+
+  <img src ="assets\DemoTerminal.gif" width ="900">
